@@ -13,6 +13,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: 100, height: 100 });
   const [rotation, setRotation] = useState(0);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (overlayImageSrc && mainImageRef.current) {
@@ -126,8 +127,11 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
       context.drawImage(loadedOverlayImage, -size.width / 2, -size.height / 2, size.width, size.height);
       context.restore();
 
+      const dataUrl = mainCanvas.toDataURL('image/png');
+      setDownloadUrl(dataUrl);
+
       const link = document.createElement('a');
-      link.href = mainCanvas.toDataURL();
+      link.href = dataUrl;
       link.download = 'overlay_image.png';
       link.click();
     } catch (error) {
@@ -158,7 +162,14 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
           </div>
         )}
       </div>
-      {overlayImageSrc && <button onClick={handleSave}>Save Image</button>}
+      {overlayImageSrc && (
+        <>
+          <button onClick={handleSave}>Save Image</button>
+          {downloadUrl && (
+            <a href={downloadUrl} download="overlay_image.png" style={{ display: 'none' }} id="download-link">Download</a>
+          )}
+        </>
+      )}
     </div>
   );
 };
