@@ -7,8 +7,8 @@ import './IndexPage.css';
 
 export const IndexPage: FC = () => {
   return (
-    <Placeholder header="TIMEME GENERATOR"
-                 description="soon...">
+    <Placeholder header="$TIME MEMES GENERATOR"
+                 description="coming soon...">
       <img
         alt="its TIME"
         src={welcomeImg}
