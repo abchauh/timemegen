@@ -166,7 +166,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
         <>
           <button onClick={handleSave}>Save Image</button>
           {downloadUrl && (
-            <a href={downloadUrl} download="overlay_image.png" style={{ display: 'none' }} id="download-link">Download</a>
+            <a href={downloadUrl} download="overlay_image.png" id="download-link">Download</a>
           )}
         </>
       )}
