@@ -1,4 +1,4 @@
-import {Cell, List, Placeholder, Section} from '@telegram-apps/telegram-ui';
+import {Cell, List, Section} from '@telegram-apps/telegram-ui';
 import type {FC} from 'react';
 
 import './IndexPage.css';
