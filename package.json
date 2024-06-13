@@ -1,9 +1,9 @@
 {
-  "name": "memegen",
-  "private": true,
-  "version": "0.0.1",
+  "name": "timemegen",
+  "private": false,
+  "version": "1.0.0",
   "type": "module",
-  "homepage": "https://bogdantimes.github.io/memegen",
+  "homepage": "https://bogdantimes.github.io/timemegen",
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite",
