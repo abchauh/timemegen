@@ -1,8 +1,11 @@
 import axios from "axios";
-
 import fs from "fs";
-
 import path from "path";
+import { fileURLToPath } from "url";
+
+// Get the directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
