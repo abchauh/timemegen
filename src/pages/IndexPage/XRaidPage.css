@@ -1,0 +1,25 @@
+.x-raid-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.x-raid-page input {
+  margin: 10px 0;
+  padding: 5px;
+  width: 300px;
+}
+
+.x-raid-page button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.post-content {
+  margin-top: 20px;
+  width: 80%;
+  max-width: 800px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
