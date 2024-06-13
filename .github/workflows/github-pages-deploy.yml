@@ -45,6 +45,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Download Telegram stickers
+        run: node downloadStickers.js
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          STICKER_PACK: ${{ vars.STICKER_PACK }}
+
       - name: Build
         run: npm run build
 

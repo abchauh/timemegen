@@ -1,0 +1,37 @@
+.overlay-container {
+  position: relative;
+  display: inline-block;
+}
+
+.main-image {
+  position: relative;
+}
+
+.main-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.overlay-image {
+  position: absolute;
+  cursor: move;
+  border: 1px dashed #ddd;
+  touch-action: none; /* Prevent default touch action to allow custom touch handling */
+}
+
+.overlay-image img {
+  width: 100%;
+  height: auto;
+}
+
+.resize-rotate-handle {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background: #ddd;
+  cursor: nwse-resize;
+  touch-action: none; /* Prevent default touch action to allow custom touch handling */
+}

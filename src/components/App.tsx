@@ -8,7 +8,7 @@ import {
   useThemeParams,
   useViewport,
 } from '@tma.js/sdk-react';
-import { AppRoot } from '@telegram-apps/telegram-ui';
+import { AppRoot, Placeholder } from '@telegram-apps/telegram-ui';
 import { type FC, useEffect, useMemo } from 'react';
 import {
   Navigate,
@@ -18,6 +18,7 @@ import {
 } from 'react-router-dom';
 
 import { routes } from '@/navigation/routes.tsx';
+import welcomeImg from '../cat.jpg';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -54,6 +55,13 @@ export const App: FC = () => {
       appearance={miniApp.isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
+      <Placeholder header="$TIME MEMES GENERATOR">
+        <img
+          alt="its TIME"
+          src={welcomeImg}
+          style={{ display: 'block', width: '144px', height: '144px' }}
+        />
+      </Placeholder>
       <Router location={location} navigator={reactNavigator}>
         <Routes>
           {routes.map((route) => <Route key={route.path} {...route} />)}

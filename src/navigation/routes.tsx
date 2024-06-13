@@ -1,6 +1,6 @@
 import type {ComponentType, JSX} from 'react';
 
-import {IndexPage} from '@/pages/IndexPage/IndexPage';
+//import {IndexPage} from '@/pages/IndexPage/IndexPage';
 import { XRaidPage } from '@/pages/IndexPage/XRaidPage';
 
 interface Route {
@@ -11,6 +11,7 @@ interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', Component: IndexPage },
-  { path: '/x-raid', Component: XRaidPage, title: 'X Raid' },
+  { path: '/', Component: XRaidPage },
+//  { path: '/', Component: IndexPage },
+//  { path: '/x-raid', Component: XRaidPage, title: 'X Raid' },
 ];
