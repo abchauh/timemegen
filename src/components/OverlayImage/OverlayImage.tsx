@@ -16,6 +16,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
     const [overlaySize, setOverlaySize] = useState({ width: 100, height: 100 });
     const [overlayRotation, setOverlayRotation] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleDragStop: RndDragCallback = (_, data) => {
         setOverlayPosition({ x: data.x, y: data.y });
@@ -44,6 +45,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
     const handleUpload = useCallback(() => {
         if (containerRef.current) {
             setLoading(true);
+            setError(null);
             htmlToImage.toBlob(containerRef.current, { skipFonts: true })
                 .then(blob => {
                     if (blob) {
@@ -52,6 +54,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                             setLoading(false);
                         }).catch(uploadErr => {
                             console.error(`Upload error: ${uploadErr}`);
+                            setError('Failed to upload image. Please try again.');
                             setLoading(false);
                         });
                     } else {
@@ -60,6 +63,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                 })
                 .catch(err => {
                     console.error(`Failed to create blob: ${err}`);
+                    setError('Failed to generate image. Please try again.');
                     setLoading(false);
                 });
         }
@@ -98,6 +102,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
             <button onClick={handleUpload} className="generate-button" disabled={loading}>
                 {loading ? 'Generating...' : 'Generate'}
             </button>
+            {error && <div className="error-message">{error}</div>}
         </div>
     );
 };
