@@ -1,11 +1,11 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Rnd } from 'react-rnd';
+import { Rnd, RndDragCallback, RndResizeCallback } from 'react-rnd';
 import * as htmlToImage from 'html-to-image';
 import './OverlayImage.css';
 
 interface OverlayImageProps {
   mainImageSrc: string;
-  overlayImageSrc: string;
+  overlayImageSrc: string | null;
 }
 
 const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageSrc }) => {
@@ -15,12 +15,12 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
   const [overlayRotation, setOverlayRotation] = useState(0);
   const [buttonText, setButtonText] = useState('Generate & Copy');
 
-  const handleDragStop = (e, d) => {
-    setOverlayPosition({ x: d.x, y: d.y });
+  const handleDragStop: RndDragCallback = (_, data) => {
+    setOverlayPosition({ x: data.x, y: data.y });
     setButtonText('Generate & Copy');
   };
 
-  const handleResize = (e, direction, ref, delta, position) => {
+  const handleResize: RndResizeCallback = (_, __, ref, ___, position) => {
     setOverlaySize({
       width: parseInt(ref.style.width),
       height: parseInt(ref.style.height),
@@ -29,7 +29,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
     setButtonText('Generate & Copy');
   };
 
-  const handleRotate = (e) => {
+  const handleRotate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rotation = parseFloat(e.target.value);
     setOverlayRotation(rotation);
     setButtonText('Generate & Copy');
