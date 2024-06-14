@@ -53,15 +53,19 @@ export const XRaidPage: FC = () => {
                     placeholder="Paste X post URL here"
                 />
             </div>
-            {content && (<div className="post-content">
-                <p>{content}</p>
-                {mediaUrl && (
-                    <>
-                        <OverlayImage mainImageSrc={mediaUrl} overlayImageSrc={overlayImage}/>
-                        <StickerPack onStickerClick={setOverlayImage}/>
-                    </>
-                )}
-            </div>)}
+            {content && (
+                <div className="post-content">
+                    <p>{content}</p>
+                    {mediaUrl && (
+                        <>
+                            <OverlayImage mainImageSrc={mediaUrl} overlayImageSrc={overlayImage} />
+                            <div className="sticker-pack-wrapper">
+                                <StickerPack onStickerClick={setOverlayImage} />
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

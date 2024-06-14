@@ -1,25 +1,24 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { Rnd, RndDragCallback, RndResizeCallback } from 'react-rnd';
+import React, {useCallback, useRef, useState} from 'react';
+import {Rnd, RndDragCallback, RndResizeCallback} from 'react-rnd';
 import * as htmlToImage from 'html-to-image';
 import './OverlayImage.css';
-import axios from 'axios';
-import { postEvent } from '@tma.js/sdk-react';
 
 interface OverlayImageProps {
     mainImageSrc: string;
     overlayImageSrc: string | null;
 }
 
-const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageSrc }) => {
+const OverlayImage: React.FC<OverlayImageProps> = ({mainImageSrc, overlayImageSrc}) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [overlayPosition, setOverlayPosition] = useState({ x: 100, y: 100 });
-    const [overlaySize, setOverlaySize] = useState({ width: 100, height: 100 });
+    const [overlayPosition, setOverlayPosition] = useState({x: 100, y: 100});
+    const [overlaySize, setOverlaySize] = useState({width: 100, height: 100});
     const [overlayRotation, setOverlayRotation] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [buttonText, setButtonText] = useState("Generate & Copy");
     const [error, setError] = useState<string | null>(null);
 
     const handleDragStop: RndDragCallback = (_, data) => {
-        setOverlayPosition({ x: data.x, y: data.y });
+        setOverlayPosition({x: data.x, y: data.y});
+        setButtonText("Generate & Copy");
     };
 
     const handleResize: RndResizeCallback = (_, __, ref, ___, position) => {
@@ -28,34 +27,34 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
             height: parseInt(ref.style.height),
         });
         setOverlayPosition(position);
+        setButtonText("Generate & Copy");
     };
 
     const handleRotate = (e: React.ChangeEvent<HTMLInputElement>) => {
         const rotation = parseFloat(e.target.value);
         setOverlayRotation(rotation);
+        setButtonText("Generate & Copy");
     };
 
-    const uploadImage = async (blob: Blob) => {
-        const formData = new FormData();
-        formData.append('file', blob, 'image.png');
-        const response = await axios.post('https://file.io', formData);
-        return response.data.link;
-    };
-
-    const handleUpload = useCallback(() => {
+    const handleUpload = useCallback(async () => {
         if (containerRef.current) {
-            setLoading(true);
             setError(null);
-            htmlToImage.toBlob(containerRef.current, { skipFonts: true })
+
+            htmlToImage.toBlob(containerRef.current, {skipFonts: true})
                 .then(blob => {
                     if (blob) {
-                        return uploadImage(blob).then(imageUrl => {
-                            postEvent('web_app_switch_inline_query', { query: `generated me this: ${imageUrl}`, chat_types: ['groups'] });
-                            setLoading(false);
-                        }).catch(uploadErr => {
-                            console.error(`Upload error: ${uploadErr}`);
-                            setError('Failed to upload image. Please try again.');
-                            setLoading(false);
+                        navigator.clipboard.write([
+                            new ClipboardItem({
+                                'image/png': blob
+                            })
+                        ]).then(() => {
+                            setButtonText("Copied!");
+                            setTimeout(() => {
+                                setButtonText("Generate & Copy");
+                            }, 2000);
+                        }).catch(copyErr => {
+                            console.error(`Copy error: ${copyErr.message}`);
+                            setError(`Failed to copy image: ${copyErr.message}`);
                         });
                     } else {
                         throw new Error('Blob creation failed');
@@ -64,7 +63,6 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                 .catch(err => {
                     console.error(`Failed to create blob: ${err}`);
                     setError('Failed to generate image. Please try again.');
-                    setLoading(false);
                 });
         }
     }, []);
@@ -72,10 +70,10 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
     return (
         <div className="overlay-image-wrapper">
             <div className="overlay-image-container" ref={containerRef}>
-                <img src={mainImageSrc} alt="Main" className="main-image" />
+                <img src={mainImageSrc} alt="Main" className="main-image"/>
                 <Rnd
-                    size={{ width: overlaySize.width, height: overlaySize.height }}
-                    position={{ x: overlayPosition.x, y: overlayPosition.y }}
+                    size={{width: overlaySize.width, height: overlaySize.height}}
+                    position={{x: overlayPosition.x, y: overlayPosition.y}}
                     onDragStop={handleDragStop}
                     onResize={handleResize}
                     lockAspectRatio={true}
@@ -141,8 +139,8 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                 onChange={handleRotate}
                 className="rotation-slider"
             />
-            <button onClick={handleUpload} className="generate-button" disabled={loading}>
-                {loading ? 'Generating...' : 'Generate'}
+            <button onClick={handleUpload} className="generate-button">
+                {buttonText}
             </button>
             {error && <div className="error-message">{error}</div>}
         </div>
