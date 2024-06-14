@@ -1,11 +1,7 @@
-import {FC, ChangeEvent, useEffect} from 'react';
-import {useState} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPaste} from '@fortawesome/free-solid-svg-icons';
+import {ChangeEvent, FC, useEffect, useState} from 'react';
 import './XRaidPage.css';
 import OverlayImage from '@/components/OverlayImage/OverlayImage';
 import StickerPack from '@/components/StickerPack/StickerPack';
-import {postEvent, on} from '@tma.js/sdk';
 
 export const XRaidPage: FC = () => {
     const [url, setUrl] = useState('');
@@ -47,22 +43,6 @@ export const XRaidPage: FC = () => {
         setUrl(e.target.value);
     };
 
-    const pasteText = async () => {
-        try {
-            const removeListener = on('clipboard_text_received', e => {
-                if (e.data) {
-                    setUrl(e.data);
-                }
-                removeListener();
-            });
-            postEvent('web_app_read_text_from_clipboard', {req_id: Date.now().toString()});
-            const text = await navigator.clipboard.readText();
-            setUrl(text);
-        } catch (error) {
-            console.error('Failed to read clipboard contents: ', error);
-        }
-    };
-
     return (
         <div className="x-raid-page">
             <div className="input-group">
@@ -72,9 +52,6 @@ export const XRaidPage: FC = () => {
                     onChange={handleInputChange}
                     placeholder="Paste X post URL here"
                 />
-                <button onClick={pasteText} aria-label="Paste from clipboard">
-                    <FontAwesomeIcon icon={faPaste}/>
-                </button>
             </div>
             {content && (<div className="post-content">
                 <p>{content}</p>

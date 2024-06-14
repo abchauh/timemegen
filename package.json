@@ -14,9 +14,6 @@
     "predeploy": "pnpm run build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
     "@telegram-apps/telegram-ui": "^2.1.4",
     "@tma.js/react-router-integration": "^4.0.2",
     "@tma.js/sdk-react": "^2.2.3",

@@ -38,7 +38,7 @@
   max-width: 90%; /* Add gaps from left and right on mobile devices */
 }
 
-.copy-button {
+.generate-button {
   display: block;
   margin: 10px auto;
   padding: 10px 20px;
@@ -48,6 +48,6 @@
   cursor: pointer;
 }
 
-.copy-button:hover {
+.generate:hover {
   background-color: #45a049;
 }
