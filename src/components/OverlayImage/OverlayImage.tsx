@@ -50,7 +50,7 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                 .then(blob => {
                     if (blob) {
                         return uploadImage(blob).then(imageUrl => {
-                            postEvent('web_app_open_link', { url: imageUrl });
+                            postEvent('web_app_switch_inline_query', { query: `generated me this: ${imageUrl}`, chat_types: ['groups'] });
                             setLoading(false);
                         }).catch(uploadErr => {
                             console.error(`Upload error: ${uploadErr}`);
@@ -81,6 +81,48 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
                     lockAspectRatio={true}
                     bounds="parent"
                     className="overlay-rnd"
+                    resizeHandleStyles={{
+                        topLeft: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#000',
+                            border: '1px solid #fff',
+                            width: '10px',
+                            height: '10px',
+                            cursor: 'nwse-resize'
+                        },
+                        topRight: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#000',
+                            border: '1px solid #fff',
+                            width: '10px',
+                            height: '10px',
+                            cursor: 'nesw-resize'
+                        },
+                        bottomLeft: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#000',
+                            border: '1px solid #fff',
+                            width: '10px',
+                            height: '10px',
+                            cursor: 'nesw-resize'
+                        },
+                        bottomRight: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#000',
+                            border: '1px solid #fff',
+                            width: '10px',
+                            height: '10px',
+                            cursor: 'nwse-resize'
+                        }
+                    }}
                 >
                     <div
                         className="overlay-image"

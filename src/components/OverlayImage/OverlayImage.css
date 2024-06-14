@@ -33,9 +33,9 @@
 
 .rotation-slider {
   display: block;
-  margin: 10px auto;  /* Center the slider horizontally */
+  margin: 10px auto;
   width: 80%;
-  max-width: 90%; /* Add gaps from left and right on mobile devices */
+  max-width: 90%;
 }
 
 .generate-button {
@@ -53,8 +53,22 @@
 }
 
 .error-message {
-    color: red;
-    margin: 10px auto;
-    font-weight: bold;
-    text-align: center;
+  color: red;
+  margin: 10px auto;
+  font-weight: bold;
+  text-align: center;
 }
+
+.rnd-handle {
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  border: 1px solid #fff;
+  position: absolute;
+  z-index: 100;
+}
+
+.rnd-handle-tl { top: -5px; left: -5px; cursor: nwse-resize; }
+.rnd-handle-tr { top: -5px; right: -5px; cursor: nesw-resize; }
+.rnd-handle-bl { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.rnd-handle-br { bottom: -5px; right: -5px; cursor: nwse-resize; }
