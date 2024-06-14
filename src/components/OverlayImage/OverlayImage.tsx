@@ -2,6 +2,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Rnd, RndDragCallback, RndResizeCallback } from 'react-rnd';
 import * as htmlToImage from 'html-to-image';
 import './OverlayImage.css';
+import { postEvent } from '@tma.js/sdk-react';
 
 interface OverlayImageProps {
   mainImageSrc: string;
@@ -41,12 +42,30 @@ const OverlayImage: React.FC<OverlayImageProps> = ({ mainImageSrc, overlayImageS
         .then(blob => {
           if (blob) {
             const item = new ClipboardItem({ 'image/png': blob });
-            navigator.clipboard.write([item]);
-            setButtonText('Copied!');
+            navigator.clipboard.write([item]).then(() => {
+              navigator.clipboard.read().then(items => {
+                for (const clipboardItem of items) {
+                  if (clipboardItem.types.includes('image/png')) {
+                    setButtonText('Copied!');
+                    return;
+                  }
+                }
+                throw new Error('Clipboard does not contain the image');
+              });
+            });
+          } else {
+            throw new Error('Blob creation failed');
           }
         })
         .catch(err => {
           console.error('Failed to copy image to clipboard:', err);
+          htmlToImage.toPng(containerRef.current!, { skipFonts: true })
+            .then(dataUrl => {
+              postEvent('web_app_open_link', { url: dataUrl });
+            })
+            .catch(imgErr => {
+              console.error('Failed to create data URL:', imgErr);
+            });
         });
     }
   }, []);

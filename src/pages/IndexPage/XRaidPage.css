@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px; /* Check if too much padding at top is pushing the content down */
-  padding-top: 10px; /* Reduce top padding if needed */
+  padding: 20px;
+  padding-top: 10px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -11,30 +11,25 @@
 .input-group {
   display: flex;
   align-items: center;
-  width: 90%; /* Adjust as needed */
-  max-width: 600px; /* Adjust as needed */
-  margin-top: 20px; /* Reduce this if it's too large, causing the input box to sit too low */
+  width: 90%;
+  max-width: 600px;
+  margin-top: 10px;
 }
 
 .x-raid-page input[type="text"] {
-  flex-grow: 1;  /* Allows input to fill available space */
+  width: 100%;
   padding: 10px 15px;
   border: 1px solid #ccc;
-  border-right: none; /* Removes the right border to merge visually with the button */
-  border-radius: 4px 0 0 4px;  /* Rounded corners on the left side */
+  border-radius: 4px;
   font-size: 16px;
 }
 
-.x-raid-page button {
-  padding: 10px 20px;
-  cursor: pointer;
-  border: none;
-  border-radius: 0 4px 4px 0;  /* Rounded corners on the right side */
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
+.post-content {
+  margin-top: 20px;
+  text-align: center;
 }
 
-.x-raid-page button:hover {
-  background-color: #0056b3;
+.post-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
 }

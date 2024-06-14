@@ -1,10 +1,11 @@
-import { FC, ChangeEvent, useEffect } from 'react';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaste } from '@fortawesome/free-solid-svg-icons';
+import {FC, ChangeEvent, useEffect} from 'react';
+import {useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPaste} from '@fortawesome/free-solid-svg-icons';
 import './XRaidPage.css';
 import OverlayImage from '@/components/OverlayImage/OverlayImage';
 import StickerPack from '@/components/StickerPack/StickerPack';
+import {postEvent, on} from '@tma.js/sdk';
 
 export const XRaidPage: FC = () => {
     const [url, setUrl] = useState('');
@@ -48,6 +49,13 @@ export const XRaidPage: FC = () => {
 
     const pasteText = async () => {
         try {
+            const removeListener = on('clipboard_text_received', e => {
+                if (e.data) {
+                    setUrl(e.data);
+                }
+                removeListener();
+            });
+            postEvent('web_app_read_text_from_clipboard', {req_id: Date.now().toString()});
             const text = await navigator.clipboard.readText();
             setUrl(text);
         } catch (error) {
@@ -65,18 +73,18 @@ export const XRaidPage: FC = () => {
                     placeholder="Paste X post URL here"
                 />
                 <button onClick={pasteText} aria-label="Paste from clipboard">
-                    <FontAwesomeIcon icon={faPaste} />
+                    <FontAwesomeIcon icon={faPaste}/>
                 </button>
-              </div>
-              {content && (<div className="post-content">
-                   <p>{content}</p>
-                  {mediaUrl && (
-                      <>
-                          <OverlayImage mainImageSrc={mediaUrl} overlayImageSrc={overlayImage}/>
-                          <StickerPack onStickerClick={setOverlayImage}/>
-                      </>
-                  )}
-              </div>) }
+            </div>
+            {content && (<div className="post-content">
+                <p>{content}</p>
+                {mediaUrl && (
+                    <>
+                        <OverlayImage mainImageSrc={mediaUrl} overlayImageSrc={overlayImage}/>
+                        <StickerPack onStickerClick={setOverlayImage}/>
+                    </>
+                )}
+            </div>)}
         </div>
     );
 };

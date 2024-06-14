@@ -33,13 +33,14 @@
 
 .rotation-slider {
   display: block;
-  margin-top: 10px;
+  margin: 10px auto;  /* Center the slider horizontally */
   width: 80%;
+  max-width: 90%; /* Add gaps from left and right on mobile devices */
 }
 
 .copy-button {
   display: block;
-  margin-top: 10px;
+  margin: 10px auto;
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
